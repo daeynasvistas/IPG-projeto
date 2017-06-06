@@ -18,3 +18,13 @@ C:\Alfa_test\1\Alfa_1\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.dll
 C:\Alfa_test\1\Alfa_1\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.pdb
 C:\Alfa_test\1\Alfa_1\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.csprojResolveAssemblyReference.cache
 C:\Alfa_test\1\Alfa_1\Alfa_01\obj\Debug\netcoreapp1.1\UserSecretsAssemblyInfo.cs
+C:\_alfa\alfa_1\Alfa_01\bin\Debug\netcoreapp1.1\Alfa_1.deps.json
+C:\_alfa\alfa_1\Alfa_01\bin\Debug\netcoreapp1.1\Alfa_1.runtimeconfig.json
+C:\_alfa\alfa_1\Alfa_01\bin\Debug\netcoreapp1.1\Alfa_1.runtimeconfig.dev.json
+C:\_alfa\alfa_1\Alfa_01\bin\Debug\netcoreapp1.1\Alfa_1.dll
+C:\_alfa\alfa_1\Alfa_01\bin\Debug\netcoreapp1.1\Alfa_1.pdb
+C:\_alfa\alfa_1\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.csprojResolveAssemblyReference.cache
+C:\_alfa\alfa_1\Alfa_01\obj\Debug\netcoreapp1.1\UserSecretsAssemblyInfo.cs
+C:\_alfa\alfa_1\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.AssemblyInfo.cs
+C:\_alfa\alfa_1\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.dll
+C:\_alfa\alfa_1\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.pdb
