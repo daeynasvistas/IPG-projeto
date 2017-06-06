@@ -13,6 +13,7 @@ using Alfa_1.Data;
 using Alfa_1.Models;
 using Alfa_1.Services;
 using Microsoft.AspNetCore.Identity;
+using Alfa_1.Configuration;
 
 namespace Alfa_1
 {
@@ -43,16 +44,21 @@ namespace Alfa_1
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
+            // Envio de email
+            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+            {
+                config.SignIn.RequireConfirmedEmail = true;
+            }) 
+              .AddEntityFrameworkStores<ApplicationDbContext>()
+              .AddDefaultTokenProviders();
+            // Ler smtp config
+            services.Configure<SmtpConfig>(Configuration.GetSection("Smtp"));
             services.AddMvc();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
