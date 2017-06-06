@@ -49,7 +49,7 @@ namespace Alfa_1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("Id,DisplayName,RegisterDate,ProfilePicture,ProfilePictureFile")] Profile profile, IFormFile ProfilePictureFile)
+        public async Task<IActionResult> Edit([Bind("Id,DisplayName,ProfilePicture,ProfilePictureFile")] Profile profile, IFormFile ProfilePictureFile)
         {
 
             if (ModelState.IsValid)
@@ -69,9 +69,6 @@ namespace Alfa_1.Controllers
 
                     profile.ProfilePicture = "Profile.jpg";
                 }
-
-
-
 
                 _context.Update(profile);
                 await _context.SaveChangesAsync();
