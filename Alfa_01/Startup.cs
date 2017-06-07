@@ -103,8 +103,8 @@ namespace Alfa_1
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
             //adding custom roles
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             string[] roleNames = { "Admin", "Manager", "Member" };
             IdentityResult roleResult;
@@ -112,10 +112,10 @@ namespace Alfa_1
             foreach (var roleName in roleNames)
             {
                 //creating the roles and seeding them to the database
-                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                var roleExist = await roleManager.RoleExistsAsync(roleName);
                 if (!roleExist)
                 {
-                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                    roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
                 }
             }
 
@@ -124,21 +124,21 @@ namespace Alfa_1
             {
                 UserName = Configuration.GetSection("AppSettings")["UserEmail"],
                 Email = Configuration.GetSection("AppSettings")["UserEmail"],
-                // criar novo profile vazio para utilizador
-                Profile = new Profile { RegisterDate= DateTime.Now } // ADD Profile ---- 0.2
-        };
+                EmailConfirmed = true,// autoconfirmar o email enviado
+                Profile = new Profile { RegisterDate= DateTime.Now } // // criar novo profile vazio para utilizador ADD Profile ---- 0.2
+            };
 
             string UserPassword = Configuration.GetSection("AppSettings")["UserPassword"];
-            var _user = await UserManager.FindByEmailAsync(Configuration.GetSection("AppSettings")["UserEmail"]);
+            var _user = await userManager.FindByEmailAsync(Configuration.GetSection("AppSettings")["UserEmail"]);
 
             if (_user == null)
             {
-                var createPowerUser = await UserManager.CreateAsync(poweruser, UserPassword);
+                var createPowerUser = await userManager.CreateAsync(poweruser, UserPassword);
+
                 if (createPowerUser.Succeeded)
                 {
                     //here we tie the new user to the "Admin" role 
-                    await UserManager.AddToRoleAsync(poweruser, "Admin");
-
+                    await userManager.AddToRoleAsync(poweruser, "Admin");
                 }
             }
         }
