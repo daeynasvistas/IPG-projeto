@@ -7,16 +7,24 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Alfa_1.Data;
 using Alfa_1.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Alfa_1.Controllers
 {
     public class AdminUsersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AdminUsersController(ApplicationDbContext context)
+        public AdminUsersController(ApplicationDbContext context, 
+                                    RoleManager<IdentityRole> roleManager,
+                                    UserManager<ApplicationUser> userManager)
         {
-            _context = context;    
+            _context = context;
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         // GET: AdminUsers
@@ -88,34 +96,14 @@ namespace Alfa_1.Controllers
             return View(applicationUser);
         }
 
-        //// GET: AdminUsers/Create
-        //public IActionResult Create()
-        //{
-        //    ViewData["ProfileId"] = new SelectList(_context.Profile, "Id", "Id");
-        //    return View();
-        //}
-
-        // POST: AdminUsers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("ProfileId,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(applicationUser);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction("Index");
-        //    }
-        //    ViewData["ProfileId"] = new SelectList(_context.Profile, "Id", "Id", applicationUser.ProfileId);
-        //    return View(applicationUser);
-        //}
-
-        // GET: AdminUsers/Edit/5
+     
+        [HttpGet]
         public async Task<IActionResult> Edit(string id)
-        {
+        {   
             var applicationUser = await _context.ApplicationUser.SingleOrDefaultAsync(m => m.Id == id);
+            //ViewData["Roles"] = new SelectList(_roleManager.Roles.OrderBy(r => r.Name));
+            List<string> roles = _roleManager.Roles.Select(x => x.Name).ToList();
+            ViewData["Roles"] = roles;
             return View(applicationUser);
         }
 
@@ -128,6 +116,8 @@ namespace Alfa_1.Controllers
         //        public async Task<IActionResult> Edit(string id, [Bind("ProfileId,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
         public async Task<IActionResult> EditPost(string id)
         {
+
+            string role = Request.Form["NewRole"].ToString();
             var applicationUser = await _context.ApplicationUser.SingleOrDefaultAsync(u => u.Id == id);
 
             if (await TryUpdateModelAsync<ApplicationUser>(
@@ -136,7 +126,10 @@ namespace Alfa_1.Controllers
                 u => u.EmailConfirmed, u => u.LockoutEnabled))
             {
                 try
-                {
+                    //------------------------- MELHORAR ISTO .. o user já está no Applicationuser estranho
+                {   //var user = await _userManager.FindByIdAsync(id);
+                    await _userManager.AddToRoleAsync(applicationUser, role);
+                    //--------------------------------------------------------------------------------------
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Index");
                 }
