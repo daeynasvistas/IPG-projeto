@@ -9,9 +9,11 @@ using Alfa_1.Data;
 using Alfa_1.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Alfa_1.Controllers
 {
+    [Authorize(Roles = "Admin, Manager")]
     public class AdminUsersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -60,16 +62,16 @@ namespace Alfa_1.Controllers
             switch (sortOrder)
             {
                 case "email_desc":
-                    users = users.OrderByDescending(s => s.Email);
+                    users = users.OrderByDescending(s => s.EmailConfirmed);
                     break;
-                case "Date":
-                    users = users.OrderBy(s => s.Profile.RegisterDate);
+                case "email":
+                    users = users.OrderBy(s => s.EmailConfirmed);
                     break;
                 case "date_desc":
-                    users = users.OrderByDescending(s => s.Profile.RegisterDate);
+                    users = users.OrderBy(s => s.Profile.RegisterDate);
                     break;
                 default:
-                    users = users.OrderBy(s => s.Email);
+                    users = users.OrderByDescending(s => s.Profile.RegisterDate);
                     break;
             }
 

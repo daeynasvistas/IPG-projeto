@@ -8,6 +8,12 @@
 {
     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
+            @if( (User.IsInRole("Admin")) || (User.IsInRole("Manager")) )// enquanto não aplicar Policy 
+            {
+            <li>
+                <a asp-area="" asp-controller="AdminUsers" asp-action="Index" title="AdminUsers">Users Management</a>
+            </li>
+            }
             <li>
                 <a asp-area="" asp-controller="Profile" asp-action="Index" title="Profile">My Profile</a>
             </li>

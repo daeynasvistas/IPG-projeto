@@ -26,10 +26,10 @@
     <thead>
         <tr>
                 <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["EmailSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Email </a>
+                    Email
                 </th>
                 <th>
-                    Email confirmation
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["EmailSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Email Confirmation</a>
                 </th>
                 <th>
                     Access fail count
@@ -58,7 +58,7 @@
                 @Html.DisplayFor(modelItem => item.Profile.RegisterDate)
             </td>
             <td>
-                @(string.Join(",", await userManager.GetRolesAsync(item)))
+                @(string.Join(", ", await userManager.GetRolesAsync(item)))
             </td>
             <td>@*  *@
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
