@@ -28,3 +28,13 @@ C:\_alfa\alfa_1\Alfa_01\obj\Debug\netcoreapp1.1\UserSecretsAssemblyInfo.cs
 C:\_alfa\alfa_1\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.AssemblyInfo.cs
 C:\_alfa\alfa_1\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.dll
 C:\_alfa\alfa_1\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.pdb
+C:\Projeto\alfa\Alfa_01\bin\Debug\netcoreapp1.1\Alfa_1.deps.json
+C:\Projeto\alfa\Alfa_01\bin\Debug\netcoreapp1.1\Alfa_1.runtimeconfig.json
+C:\Projeto\alfa\Alfa_01\bin\Debug\netcoreapp1.1\Alfa_1.runtimeconfig.dev.json
+C:\Projeto\alfa\Alfa_01\bin\Debug\netcoreapp1.1\Alfa_1.dll
+C:\Projeto\alfa\Alfa_01\bin\Debug\netcoreapp1.1\Alfa_1.pdb
+C:\Projeto\alfa\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.csprojResolveAssemblyReference.cache
+C:\Projeto\alfa\Alfa_01\obj\Debug\netcoreapp1.1\UserSecretsAssemblyInfo.cs
+C:\Projeto\alfa\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.AssemblyInfo.cs
+C:\Projeto\alfa\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.dll
+C:\Projeto\alfa\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.pdb
