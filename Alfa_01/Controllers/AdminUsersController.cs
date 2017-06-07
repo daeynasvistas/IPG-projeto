@@ -37,7 +37,7 @@ namespace Alfa_1.Controllers
             int? page)
         {
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["EmailSortParm"] = String.IsNullOrEmpty(sortOrder) ? "email_desc" : "";
+            ViewData["EmailSortParm"] = String.IsNullOrEmpty(sortOrder) ? "email" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
 
             if (searchString != null)
