@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace Alfa_1.Models
 
         //Navigation entre profile<->applicationUser
         public ApplicationUser User { get; set; }
+
+
 
     }
 }

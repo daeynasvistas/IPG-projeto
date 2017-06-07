@@ -14,6 +14,5 @@ namespace Alfa_1.Models
         [ForeignKey("Profile")] // especifica a FK (ProfileId = FK em ApplicationUser )
         public int ProfileId { get; set; }
         public Profile Profile { get; set; }
-
     }
 }
