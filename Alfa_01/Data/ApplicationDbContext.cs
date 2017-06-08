@@ -26,5 +26,9 @@ namespace Alfa_1.Data
         }
 
         public DbSet<Alfa_1.Models.ApplicationUser> ApplicationUser { get; set; }
+
+        public DbSet<Alfa_1.Models.Category> Category { get; set; }
+
+        public DbSet<Alfa_1.Models.Report> Report { get; set; }
     }
 }

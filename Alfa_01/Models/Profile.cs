@@ -19,8 +19,7 @@ namespace Alfa_1.Models
 
         //Navigation entre profile<->applicationUser
         public ApplicationUser User { get; set; }
-
-
-
     }
+
+   
 }

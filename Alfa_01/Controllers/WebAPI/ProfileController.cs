@@ -22,9 +22,10 @@ namespace Alfa_1.Controllers.WebAPI
 
 
         [HttpGet("")]
-        public List<ApplicationUser> List()
+        public List<Profile> List()
         {
-            List<ApplicationUser> allUsers = _context.Users.ToList();
+            // all -- passhash included
+            List<Profile> allUsers = _context.Profile.ToList();
 
             return allUsers;
 
