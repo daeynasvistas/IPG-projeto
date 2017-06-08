@@ -14,6 +14,7 @@ using Alfa_1.Models;
 using Alfa_1.Services;
 using Microsoft.AspNetCore.Identity;
 using Alfa_1.Configuration;
+using System.Globalization;
 
 namespace Alfa_1
 {
@@ -95,6 +96,10 @@ namespace Alfa_1
             // -------------- inicialiar o crateRoles DAEY
             // ADD ROLES ---- 0.1
             await CreateRoles(serviceProvider);
+            // problemas com "." em latitude e longitude.. alterar cultureinfo
+            System.Globalization.CultureInfo customCulture = new CultureInfo("PT");
+            customCulture.NumberFormat.NumberDecimalSeparator = ".";
+            CultureInfo.DefaultThreadCurrentCulture = customCulture;
         }
 
 

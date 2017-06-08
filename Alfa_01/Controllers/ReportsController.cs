@@ -7,17 +7,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Alfa_1.Data;
 using Alfa_1.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Alfa_1.Controllers
 {
     public class ReportsController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
-
-        public ReportsController(ApplicationDbContext context)
+        public ReportsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
-            _context = context;    
+            _context = context;
+            _userManager = userManager;
+
         }
+
 
         // GET: Reports
         public async Task<IActionResult> Index()
@@ -49,6 +53,9 @@ namespace Alfa_1.Controllers
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "Name");
+            ViewData["Created"] = DateTime.Now;
+            //ViewData["Created"] = await _manager.GetUserAsync(HttpContext.User);
+
             return View();
         }
 
@@ -57,10 +64,13 @@ namespace Alfa_1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Img,IsComplete,Created,Close,Latitude,Longitude,CategoryId")] Report report)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Img,IsComplete,Latitude,Longitude,CategoryId")] Report report)
         {
             if (ModelState.IsValid)
             {
+                report.User = await _userManager.GetUserAsync(HttpContext.User);
+                report.Created = DateTime.Now;
+
                 _context.Add(report);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -102,6 +112,11 @@ namespace Alfa_1.Controllers
             {
                 try
                 {
+                    // report complete check unchecked
+                    if (report.IsComplete)
+                    { report.Close = DateTime.Now; }
+                    else { report.Close = default(DateTime); }
+
                     _context.Update(report);
                     await _context.SaveChangesAsync();
                 }
@@ -118,6 +133,9 @@ namespace Alfa_1.Controllers
                 }
                 return RedirectToAction("Index");
             }
+
+
+
             ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "Name", report.CategoryId);
             return View(report);
         }
