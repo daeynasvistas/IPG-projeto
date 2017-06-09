@@ -67,7 +67,7 @@ namespace Alfa_1.Controllers
                             await ProfilePictureFile.CopyToAsync(fs);
                         }
 
-                    profile.ProfilePicture = "Profile.jpg";
+                    profile.ProfilePicture = currentUser.Id+"/Profile.png";
                 }
 
                 _context.Update(profile);

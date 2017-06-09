@@ -14,8 +14,7 @@ namespace Alfa_1.Data
             : base(options)
         {
         }
-        // adicionar DBset para Profile
-        public DbSet<Profile> Profile { get; set; } // ADD Profile ---- 0.2
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -24,7 +23,13 @@ namespace Alfa_1.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+        // adicionar DBset para Profile
+        public DbSet<Profile> Profile { get; set; } // ADD Profile ---- 0.2
 
         public DbSet<Alfa_1.Models.ApplicationUser> ApplicationUser { get; set; }
+
+        public DbSet<Alfa_1.Models.Category> Category { get; set; }
+
+        public DbSet<Alfa_1.Models.Report> Report { get; set; }
     }
 }

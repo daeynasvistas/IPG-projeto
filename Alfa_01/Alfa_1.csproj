@@ -11,6 +11,12 @@
   <PropertyGroup>
     <UserSecretsId>aspnet-Alfa_1-9ee1a9b5-cae2-48ad-bd6b-df438c2c8900</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\uploads\profile.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
@@ -35,6 +41,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Controllers\WebAPI\" />
     <Folder Include="wwwroot\uploads\temp\" />
   </ItemGroup>
 
