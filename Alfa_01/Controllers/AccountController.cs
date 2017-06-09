@@ -123,7 +123,7 @@ namespace Alfa_1.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var initProfile = new Profile { RegisterDate = DateTime.Now , ProfilePicture = ""};// ADD Profile ---- 0.2
+                var initProfile = new Profile { RegisterDate = DateTime.Now , ProfilePicture = "Profile.png" };// ADD Profile ---- 0.2
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Profile = initProfile };// ADD Profile ---- 0.2
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
