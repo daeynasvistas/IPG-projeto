@@ -11310,10 +11310,10 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Projeto\\alfa\\Alfa_01\\Alfa_1.csproj",
+      "projectUniqueName": "C:\\Alfa_test\\1\\Alfa_1\\Alfa_01\\Alfa_1.csproj",
       "projectName": "Alfa_1",
-      "projectPath": "C:\\Projeto\\alfa\\Alfa_01\\Alfa_1.csproj",
-      "outputPath": "C:\\Projeto\\alfa\\Alfa_01\\obj\\",
+      "projectPath": "C:\\Alfa_test\\1\\Alfa_1\\Alfa_01\\Alfa_1.csproj",
+      "outputPath": "C:\\Alfa_test\\1\\Alfa_1\\Alfa_01\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netcoreapp1.1"
