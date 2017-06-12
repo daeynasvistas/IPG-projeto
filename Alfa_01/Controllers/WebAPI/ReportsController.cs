@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Alfa_1.Data;
 using Alfa_1.Models;
+using Alfa_1.Models.ApiViewModel;
 
 namespace Alfa_1.Controllers.WebAPI
 {
@@ -16,19 +17,46 @@ namespace Alfa_1.Controllers.WebAPI
     {
         private readonly ApplicationDbContext _context;
 
-        public ReportsController(ApplicationDbContext context)
+        public ReportsController(ApplicationDbContext context) 
         {
             _context = context;
         }
 
+
         // GET: api/Reports
         [HttpGet]
-        public IEnumerable<Report> GetReport()
+        public IEnumerable<AllReportsViewModel> Get()
         {
-            var report =  _context.Report;
+            // to hold list of Reports e outros detalhes
+            List<AllReportsViewModel> ReportVMlist = new List<AllReportsViewModel>();
+            // context com categoria e user
+            var reports =  _context.Report.Include(c => c.Category)
+                                          .Include(u => u.User)
+                                          .Include(p => p.User.Profile); 
+            // enviar informação pretendoda para a view
+            foreach (Report item in reports)
+            {
+                AllReportsViewModel reportVM = new AllReportsViewModel(); // ViewModel
+                // Report
+                reportVM.Id         = item.Id;
+                reportVM.Name       = item.Name;
+                reportVM.Latitude   = item.Latitude;
+                reportVM.Longitude  = item.Longitude;
+                reportVM.Img        = item.Img;
+                reportVM.Created    = item.Created;
+                reportVM.Close      = item.Close;
+                reportVM.IsComplete = item.IsComplete;
+                // category
+                reportVM.Category    = item.Category.Name;
+                reportVM.CategoryId  = item.Category.CategoryId;
+                // user
+                reportVM.UserPicture = item.User.Profile.ProfilePicture;
+                reportVM.DisplayName = item.User.Profile.DisplayName;
 
-            return report;
-           // return _context.Report.Include(a => a.Category);
+                ReportVMlist.Add(reportVM);
+            }
+            // envia já em JSon
+            return ReportVMlist;                                    // return _context.Report;
         }
 
         // GET: api/Reports/5
