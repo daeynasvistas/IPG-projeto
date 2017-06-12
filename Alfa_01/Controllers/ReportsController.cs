@@ -172,34 +172,34 @@ namespace Alfa_1.Controllers
         }
 
         // GET: Reports/Delete/5
-        //public async Task<IActionResult> Delete(long? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Delete(long? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var report = await _context.Report
-        //        .Include(r => r.Category)
-        //        .SingleOrDefaultAsync(m => m.Id == id);
-        //    if (report == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var report = await _context.Report
+                .Include(r => r.Category)
+                .SingleOrDefaultAsync(m => m.Id == id);
+            if (report == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(report);
-        //}
+            return View(report);
+        }
 
         // POST: Reports/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(long id)
-        //{
-        //    var report = await _context.Report.SingleOrDefaultAsync(m => m.Id == id);
-        //    _context.Report.Remove(report);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction("Index");
-        //}
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(long id)
+        {
+            var report = await _context.Report.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Report.Remove(report);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
 
         private bool ReportExists(long id)
         {

@@ -12,23 +12,23 @@ using Alfa_1.Models.ApiViewModel;
 namespace Alfa_1.Controllers.WebAPI
 {
     [Produces("application/json")]
-    [Route("api/Reports")]
-    public class ReportsController : Controller
+    [Route("api/Report")]
+    public class ReportController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ReportsController(ApplicationDbContext context) 
+        public ReportController(ApplicationDbContext context) 
         {
             _context = context;
         }
 
 
-        // GET: api/Reports
+        // GET: api/Report
         [HttpGet]
-        public IEnumerable<AllReportsViewModel> Get()
+        public IEnumerable<ReportViewModel> Getall()  
         {
             // to hold list of Reports e outros detalhes
-            List<AllReportsViewModel> ReportVMlist = new List<AllReportsViewModel>();
+            List<ReportViewModel> ReportVMlist = new List<ReportViewModel>();
             // context com categoria e user
             var reports =  _context.Report.Include(c => c.Category)
                                           .Include(u => u.User)
@@ -36,7 +36,7 @@ namespace Alfa_1.Controllers.WebAPI
             // enviar informação pretendoda para a view
             foreach (Report item in reports)
             {
-                AllReportsViewModel reportVM = new AllReportsViewModel(); // ViewModel
+                ReportViewModel reportVM = new ReportViewModel(); // ViewModel
                 // Report
                 reportVM.Id         = item.Id;
                 reportVM.Name       = item.Name;
@@ -59,7 +59,7 @@ namespace Alfa_1.Controllers.WebAPI
             return ReportVMlist;                                    // return _context.Report;
         }
 
-        // GET: api/Reports/5
+        // GET: api/Report/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetReport([FromRoute] long id)
         {
@@ -67,18 +67,43 @@ namespace Alfa_1.Controllers.WebAPI
             {
                 return BadRequest(ModelState);
             }
+            // to hold list of Reports e outros detalhes
+            List<ReportViewModel> ReportVMlist = new List<ReportViewModel>();
 
-            var report = await _context.Report.SingleOrDefaultAsync(m => m.Id == id);
+            var report = await _context.Report.Include(c => c.Category)
+                                               .Include(u => u.User)
+                                               .Include(p => p.User.Profile)
+                                                .SingleOrDefaultAsync(m => m.Id == id);
+
+            ReportViewModel reportVM = new ReportViewModel(); // ViewModel
+                                                                      // Report
+            reportVM.Id = report.Id;
+            reportVM.Name = report.Name;
+            reportVM.Latitude = report.Latitude;
+            reportVM.Longitude = report.Longitude;
+            reportVM.Img = report.Img;
+            reportVM.Created = report.Created;
+            reportVM.Close = report.Close;
+            reportVM.IsComplete = report.IsComplete;
+            // category
+            reportVM.Category = report.Category.Name;
+            reportVM.CategoryId = report.Category.CategoryId;
+            // user
+            reportVM.UserPicture = report.User.Profile.ProfilePicture;
+            reportVM.DisplayName = report.User.Profile.DisplayName;
+
+            ReportVMlist.Add(reportVM);
+
 
             if (report == null)
             {
                 return NotFound();
             }
 
-            return Ok(report);
+            return Ok(reportVM);
         }
 
-        // PUT: api/Reports/5
+        // PUT: api/Report/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutReport([FromRoute] long id, [FromBody] Report report)
         {
@@ -113,22 +138,34 @@ namespace Alfa_1.Controllers.WebAPI
             return NoContent();
         }
 
-        // POST: api/Reports
+        // POST: api/Report
         [HttpPost]
-        public async Task<IActionResult> PostReport([FromBody] Report report)
+        public async Task<IActionResult> PostReport([FromBody] ReportViewModel report) // alterei de Report para o ReportViewModel
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Report.Add(report);
+
+            Report _report = new Report();
+            _report.Latitude = report.Latitude;
+            _report.Longitude = report.Longitude;
+            _report.Name = report.Name;
+            _report.Img = report.Img;
+            _report.CategoryId = report.CategoryId;
+            _report.Created = DateTime.Now;
+            _report.User = await _context.ApplicationUser.SingleOrDefaultAsync(u => u.Id == report.UserId);
+
+            
+
+            _context.Report.Add(_report);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetReport", new { id = report.Id }, report);
         }
 
-        // DELETE: api/Reports/5
+        // DELETE: api/Report/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReport([FromRoute] long id)
         {

@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 namespace Alfa_1.Models.ApiViewModel
 {
-    public class AllReportsViewModel
+    public class ReportViewModel
     {
         // Report propriamente dito-------------------
-        public string Name { get; set; }
         public long Id { get; set; }
+        public string Name { get; set; }
+
         public string Img { get; set; }
         // primeira fase.. completo/em aberto
         public bool IsComplete { get; set; }
@@ -24,6 +25,7 @@ namespace Alfa_1.Models.ApiViewModel
         public int CategoryId { get; set; }
 
         // Utilizador que enviou report-------------------
+        public string UserId { get; set; }
         public string DisplayName { get; set; }
         public string UserPicture { get; set; }
 
