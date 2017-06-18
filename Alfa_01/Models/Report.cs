@@ -26,6 +26,7 @@ namespace Alfa_1.Models
 
         //Navigation entre Report<->applicationUser
         public virtual ApplicationUser User { get; set; }
+        public string UserId { get; set; }
 
 
         [ForeignKey("Category")] // especifica a FK (CategoryId = FK em Report )

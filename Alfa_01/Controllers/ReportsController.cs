@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Alfa_1.Data;
 using Alfa_1.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Alfa_1.Controllers
 {
+    [Authorize(Roles = "Admin, Manager")]
     public class ReportsController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -72,7 +74,7 @@ namespace Alfa_1.Controllers
                     break;
             }
 
-            int pageSize = 3;
+            int pageSize = 5;
             return View(await PaginatedList<Report>.CreateAsync(reports.AsNoTracking(), page ?? 1, pageSize));
         }
 

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Alfa_1.Data;
 using Alfa_1.Models;
-using Alfa_1.Models.ApiViewModel;
 
 namespace Alfa_1.Controllers.WebAPI
 {
@@ -17,46 +16,16 @@ namespace Alfa_1.Controllers.WebAPI
     {
         private readonly ApplicationDbContext _context;
 
-        public ReportController(ApplicationDbContext context) 
+        public ReportController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-
         // GET: api/Report
         [HttpGet]
-        public IEnumerable<ReportViewModel> Getall()  
+        public IEnumerable<Report> GetReport()
         {
-            // to hold list of Reports e outros detalhes
-            List<ReportViewModel> ReportVMlist = new List<ReportViewModel>();
-            // context com categoria e user
-            var reports =  _context.Report.Include(c => c.Category)
-                                          .Include(u => u.User)
-                                          .Include(p => p.User.Profile); 
-            // enviar informação pretendoda para a view
-            foreach (Report item in reports)
-            {
-                ReportViewModel reportVM = new ReportViewModel(); // ViewModel
-                // Report
-                reportVM.Id         = item.Id;
-                reportVM.Name       = item.Name;
-                reportVM.Latitude   = item.Latitude;
-                reportVM.Longitude  = item.Longitude;
-                reportVM.Img        = item.Img;
-                reportVM.Created    = item.Created;
-                reportVM.Close      = item.Close;
-                reportVM.IsComplete = item.IsComplete;
-                // category
-                reportVM.Category    = item.Category.Name;
-                reportVM.CategoryId  = item.Category.CategoryId;
-                // user
-                reportVM.UserPicture = item.User.Profile.ProfilePicture;
-                reportVM.DisplayName = item.User.Profile.DisplayName;
-
-                ReportVMlist.Add(reportVM);
-            }
-            // envia já em JSon
-            return ReportVMlist;                                    // return _context.Report;
+            return _context.Report;
         }
 
         // GET: api/Report/5
@@ -67,40 +36,15 @@ namespace Alfa_1.Controllers.WebAPI
             {
                 return BadRequest(ModelState);
             }
-            // to hold list of Reports e outros detalhes
-            List<ReportViewModel> ReportVMlist = new List<ReportViewModel>();
 
-            var report = await _context.Report.Include(c => c.Category)
-                                               .Include(u => u.User)
-                                               .Include(p => p.User.Profile)
-                                                .SingleOrDefaultAsync(m => m.Id == id);
-
-            ReportViewModel reportVM = new ReportViewModel(); // ViewModel
-                                                                      // Report
-            reportVM.Id = report.Id;
-            reportVM.Name = report.Name;
-            reportVM.Latitude = report.Latitude;
-            reportVM.Longitude = report.Longitude;
-            reportVM.Img = report.Img;
-            reportVM.Created = report.Created;
-            reportVM.Close = report.Close;
-            reportVM.IsComplete = report.IsComplete;
-            // category
-            reportVM.Category = report.Category.Name;
-            reportVM.CategoryId = report.Category.CategoryId;
-            // user
-            reportVM.UserPicture = report.User.Profile.ProfilePicture;
-            reportVM.DisplayName = report.User.Profile.DisplayName;
-
-            ReportVMlist.Add(reportVM);
-
+            var report = await _context.Report.SingleOrDefaultAsync(m => m.Id == id);
 
             if (report == null)
             {
                 return NotFound();
             }
 
-            return Ok(reportVM);
+            return Ok(report);
         }
 
         // PUT: api/Report/5
@@ -140,26 +84,14 @@ namespace Alfa_1.Controllers.WebAPI
 
         // POST: api/Report
         [HttpPost]
-        public async Task<IActionResult> PostReport([FromBody] ReportViewModel report) // alterei de Report para o ReportViewModel
+        public async Task<IActionResult> PostReport([FromBody] Report report)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-
-            Report _report = new Report();
-            _report.Latitude = report.Latitude;
-            _report.Longitude = report.Longitude;
-            _report.Name = report.Name;
-            _report.Img = report.Img;
-            _report.CategoryId = report.CategoryId;
-            _report.Created = DateTime.Now;
-            _report.User = await _context.ApplicationUser.SingleOrDefaultAsync(u => u.Id == report.UserId);
-
-            
-
-            _context.Report.Add(_report);
+            _context.Report.Add(report);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetReport", new { id = report.Id }, report);

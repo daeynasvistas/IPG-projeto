@@ -48,3 +48,13 @@ C:\alfa2\iteration2\IPG-projeto\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.AssemblyI
 C:\alfa2\iteration2\IPG-projeto\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.dll
 C:\alfa2\iteration2\IPG-projeto\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.pdb
 C:\alfa2\iteration2\IPG-projeto\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.csprojResolveAssemblyReference.cache
+C:\alfa_2\Alfa_01\bin\Debug\netcoreapp1.1\Alfa_1.deps.json
+C:\alfa_2\Alfa_01\bin\Debug\netcoreapp1.1\Alfa_1.runtimeconfig.json
+C:\alfa_2\Alfa_01\bin\Debug\netcoreapp1.1\Alfa_1.runtimeconfig.dev.json
+C:\alfa_2\Alfa_01\bin\Debug\netcoreapp1.1\Alfa_1.dll
+C:\alfa_2\Alfa_01\bin\Debug\netcoreapp1.1\Alfa_1.pdb
+C:\alfa_2\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.csprojResolveAssemblyReference.cache
+C:\alfa_2\Alfa_01\obj\Debug\netcoreapp1.1\UserSecretsAssemblyInfo.cs
+C:\alfa_2\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.AssemblyInfo.cs
+C:\alfa_2\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.dll
+C:\alfa_2\Alfa_01\obj\Debug\netcoreapp1.1\Alfa_1.pdb
