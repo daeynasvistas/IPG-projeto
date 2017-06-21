@@ -15,6 +15,10 @@ using Alfa_1.Services;
 using Microsoft.AspNetCore.Identity;
 using Alfa_1.Configuration;
 using System.Globalization;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Alfa_1
 {
@@ -45,6 +49,29 @@ namespace Alfa_1
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            //---------------- DAEY add 401 em vez de redirect para login na api
+            services.Configure<IdentityOptions>(config =>
+            {
+                config.Cookies.ApplicationCookie.Events =
+                    new CookieAuthenticationEvents
+                    {
+                        OnRedirectToLogin = ctx =>
+                        {
+                            if (ctx.Request.Path.StartsWithSegments("/api") && ctx.Response.StatusCode != 200)
+                            {
+                                ctx.Response.StatusCode = 401;
+                                return Task.FromResult<object>(null);
+                            }
+
+                            ctx.Response.Redirect(ctx.RedirectUri);
+                            return Task.FromResult<object>(null);
+                        }
+                    };
+            });
+
+
+
             // Envio de email
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
             {
@@ -52,8 +79,12 @@ namespace Alfa_1
             }) 
               .AddEntityFrameworkStores<ApplicationDbContext>()
               .AddDefaultTokenProviders();
-            // Ler smtp config
+
+
+            // Configure using a sub-section of the appsettings.json file.
             services.Configure<SmtpConfig>(Configuration.GetSection("Smtp"));
+            services.Configure<AppConfiguration>(Configuration.GetSection("AppConfiguration"));
+
             services.AddMvc();
 
             // Add application services.
@@ -85,6 +116,19 @@ namespace Alfa_1
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                TokenValidationParameters = new TokenValidationParameters
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("AppConfiguration:Key").Value)),
+                    ValidAudience = Configuration.GetSection("AppConfiguration:SiteUrl").Value,
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = Configuration.GetSection("AppConfiguration:SiteUrl").Value
+                }
+            });
 
             app.UseMvc(routes =>
             {
@@ -130,7 +174,10 @@ namespace Alfa_1
                 UserName = Configuration.GetSection("AppSettings")["UserEmail"],
                 Email = Configuration.GetSection("AppSettings")["UserEmail"],
                 EmailConfirmed = true,// autoconfirmar o email enviado
-                Profile = new Profile { RegisterDate= DateTime.Now } // // criar novo profile vazio para utilizador ADD Profile ---- 0.2
+                Profile = new Profile {
+                                       RegisterDate = DateTime.Now,
+                                       ProfilePicture = "Profile.png"
+                                       } // // criar novo profile vazio para utilizador ADD Profile ---- 0.2
             };
 
             string UserPassword = Configuration.GetSection("AppSettings")["UserPassword"];
